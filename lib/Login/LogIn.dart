@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:graduation_project/Controller/ControllerGetx.dart';
+import 'package:graduation_project/Pages/Settiing/Setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+import '../Pages/Chats/Chat.dart';
+import '../main.dart';
 
-class LogIn extends StatefulWidget {
-  @override
-  State<LogIn> createState() {
-    return LogInState();
-  }
-}
+class LogIn extends StatelessWidget {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-class LogInState extends State<LogIn> {
+  var auth = FirebaseAuth.instance;
+ // auth.createUserWithEmailAndPassword(email: "email", password: password)
+  var email='';
+  var  password='';
+
   List<String> dropDown = ["User", "Helper"];
   String selectedState = "User";
   bool isMale = true;
@@ -20,44 +28,10 @@ class LogInState extends State<LogIn> {
   String emailErrorText = '';
   String passwordErrorText = '';
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  void validateEmail(String value) {
-    if (value.isEmpty) {
-      setState(() {
-        emailErrorText = 'Email is required';
-      });
-    } else if (!isEmailValid(value)) {
-      setState(() {
-        emailErrorText = 'Enter a valid email address';
-      });
-    } else {
-      setState(() {
-        emailErrorText = '';
-      });
-    }
-  }
-
-  void validatePassword(String value) {
-    if (value.isEmpty) {
-      setState(() {
-        passwordErrorText = 'Password is required';
-      });
-    } else {
-      setState(() {
-        passwordErrorText = '';
-      });
-    }
-  }
-
   bool isEmailValid(String email) {
     return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
   }
+  ControllerGetx controller = Get.put(ControllerGetx());
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +61,9 @@ class LogInState extends State<LogIn> {
               Padding(
                 padding: const EdgeInsets.all(1.0),
                 child: TextFormField(
+                  onChanged: (value) {
+                      email = value;
+                  },
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -121,9 +98,13 @@ class LogInState extends State<LogIn> {
               Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: TextFormField(
+                  onChanged: (value) {
+                    password = value;
+                  },
                   controller: _passwordController,
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
+
                       border: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Colors.black,
@@ -170,11 +151,12 @@ class LogInState extends State<LogIn> {
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      setState(() {
-                        selectedState = newValue;
-                      });
-                    }
+
+                    // if (newValue != null) {
+                    //   setState(() {
+                    //     selectedState = newValue;
+                    //   });
+                    // }
                   },
                 ),
               ),
@@ -200,12 +182,12 @@ class LogInState extends State<LogIn> {
                           value: false,
                           groupValue: isMale,
                           onChanged: (bool? value) {
-                            if (value != null) {
-                              setState(() {
-                                isMale = value;
-                                isFemale = !value;
-                              });
-                            }
+                            // if (value != null) {
+                            //   setState(() {
+                            //     isMale = value;
+                            //     isFemale = !value;
+                            //   });
+                            // }
                           },
                         ),
                         Text("Male"),
@@ -220,12 +202,12 @@ class LogInState extends State<LogIn> {
                         value: false,
                         groupValue: isFemale,
                         onChanged: (bool? value) {
-                          if (value != null) {
-                            setState(() {
-                              isMale = !value;
-                              isFemale = value;
-                            });
-                          }
+                          // if (value != null) {
+                          //   setState(() {
+                          //     isMale = !value;
+                          //     isFemale = value;
+                          //   });
+                          // }
                         },
                       ),
                       Text("Female"),
@@ -240,90 +222,94 @@ class LogInState extends State<LogIn> {
                     child: Checkbox(
                       value: termsAccepted,
                       onChanged: (bool? value) {
-                        if (value != null) {
-                          setState(() {
-                            termsAccepted = value;
-                          });
-                        }
+                        // if (value != null) {
+                        //   setState(() {
+                        //     termsAccepted = value;
+                        //   });
+                        // }
                       },
                     ),
                   ),
                   Text("Accept Terms"),
                 ],
               ),
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: ElevatedButton(
-                  onPressed: termsAccepted
-                      ? () {
-                    if (_formKey.currentState!.validate()) {
-                      String email = _emailController.text;
-                      String password = _passwordController.text;
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      Obx(()=>Text(controller.change.value));
 
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => HomeScreen(
-                      //       firstName: email,
-                      //       Password: password,
-                      //     ),
-                      //   ),
-                      // );
-                    }
-                  }
-                      : null,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple.shade50,
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 30, vertical: 20),
-                    textStyle: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                  child: Text("Log In"),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(6.0),
-                    child: ElevatedButton(
-                      onPressed: termsAccepted
-                          ? () {
-                        if (_formKey.currentState!.validate()) {
-                          String email = _emailController.text;
-                          String password = _passwordController.text;
+                      if (emailErrorText.isEmpty && passwordErrorText.isEmpty) {
+                        try {
+                          await auth.createUserWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+                          if (auth.currentUser != null) {
+                            //shared prefrence to sheck if user loged with same email  before or not
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            await prefs.setString('email', auth.currentUser!.email.toString());
 
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => HomeScreen(
-                          //       firstName: email,
-                          //       Password: password,
-                          //     ),
-                          //   ),
-                          // );
+                            print("current User ${auth.currentUser}");
+                          }
+                        } catch (e) {
+                          print("Error: $e");
                         }
                       }
-                          : null,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.purple.shade50,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 30, vertical: 20),
-                        textStyle: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                      child: Text("Log Out"),
-                    ),
-                  )
-                ],
-
+                    },
+                    child: Text("Sign Up"),
+                  ),
+                ),
               ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      if (emailErrorText.isEmpty && passwordErrorText.isEmpty) {
+                        try {
+                          await auth.signInWithEmailAndPassword(
+                            email: email,
+                            password: password,
+                          );
+                          //move to other page
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Setting(),
+                            ),
+                          );
 
+                        } catch (errorinput) {
+                          print("Error: $errorinput");
+                        }
+                      }
+                    },
+                    child: Text("Sign In"),
+                  ),
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      //ببيفتح الايميل بس
+                      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                      //
+                      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+                      // Create a new credential
+                      final credential = GoogleAuthProvider.credential(
+                        accessToken: googleAuth?.accessToken,
+                        idToken: googleAuth?.idToken,
+                      );
+                      await FirebaseAuth.instance.signInWithCredential(credential);
+                    },
+                    child: Text("Sign In with goole"),
+                  ),
+                ),
+              ),
 
             ],
           ),

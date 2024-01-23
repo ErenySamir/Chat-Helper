@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "470462396570",
+    "project_id": "chat-helper-2026c",
+    "storage_bucket": "chat-helper-2026c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:470462396570:android:5510661b2b52a7453e8723",
+        "android_client_info": {
+          "package_name": "com.example.graduation_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFRzp8dV-gNCZa38nR80TJUdPZYja8-gQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
