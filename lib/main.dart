@@ -2,10 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/Login/LogIn.dart';
 import 'package:graduation_project/Login/Register.dart';
+import 'package:graduation_project/Pages/Settiing/Setting.dart';
+import 'Pages/Chats/Chat.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   //initializeApp بستخدمه دايما مع فايربييز
   await Firebase.initializeApp(
       options: FirebaseOptions(
@@ -18,7 +19,6 @@ void main() async {
           measurementId: "G-86RE3D9SL6"
       )
   );
-
   //shared prefrence to sheck if user loged in before or not
   // SharedPreferences.getInstance().then((value){
   //email= value.getString("email").toString();
@@ -26,7 +26,7 @@ void main() async {
   return runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Register(),
+      home: Chat(),
     )
   );
 }

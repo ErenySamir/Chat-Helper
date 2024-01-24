@@ -15,7 +15,7 @@ class HomePageState extends State<HomePage>{
   int currentIndexx = 0;
   List<Widget> get pages => [
     Profile(),
-    Chat(),
+    //Chat(),
     Calls(),
     Setting(),
   ];

@@ -274,12 +274,12 @@ class LogIn extends StatelessWidget {
                             password: password,
                           );
                           //move to other page
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Setting(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => Setting(),
+                          //   ),
+                          // );
 
                         } catch (errorinput) {
                           print("Error: $errorinput");

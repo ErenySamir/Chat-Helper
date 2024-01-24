@@ -1,16 +1,36 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class Message {
-  final String id;
-  final String senderId;
-  final String text;
-  final DateTime timestamp;
+
+class MessageWidget extends StatelessWidget{
+  String? msg ,sender,previousName;
   var auth = FirebaseAuth.instance;
 
-  Message({
-    required this.id,
-    required this.senderId,
-    required this.text,
-    required this.timestamp,
-  });
+  MessageWidget({this.sender,this.msg,this.previousName});
+  @override
+  Widget build(BuildContext context) {
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Material(
+            color: sender == auth.currentUser!.email ? Colors.brown.shade50 : Colors.greenAccent,
+            borderRadius: BorderRadius.circular(25),
+            child: Text(msg!),
+          ),
+        ),
+        (previousName!=sender)?Padding
+          (padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: Text(sender!,style: TextStyle(
+              color: Colors.blue.shade900,
+              fontSize: 12,
+            ),)
+        ):Container()
+
+      ],
+    );
+  }
 }

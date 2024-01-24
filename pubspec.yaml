@@ -43,7 +43,7 @@ dependencies:
   shared_preferences: ^2.2.2
   cloud_firestore: ^4.14.0
   zego_express_engine: ^3.12.4
-
+  provider: ^5.0.0
 
 
 dev_dependencies:
