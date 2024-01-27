@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:zego_express_engine/zego_express_engine.dart';
-
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../Controller/ChatController.dart';
+import '../Call/Calls.dart';
 import 'Message.dart';
 
 class Chat extends StatefulWidget {
@@ -14,45 +18,81 @@ class ChatState extends State<Chat> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   TextEditingController messageTxt = TextEditingController();
-  late Stream<QuerySnapshot> messageStream;
   String? previousResponse;
+  int currentIndex = 0;
+  late ChatController chatController;
 
-  late final ZegoExpressEngine zegoEngine;
-  final int appID = 267164922;
-  final String appSign = '8a70ba787132f9f5d71d7f7761197ae53735751f3dd0c7b3cff7e76fbcf89788';
-  final bool isTestEnv = true;
-  final ZegoScenario scenario = ZegoScenario.General;
+  // To open gallery
+  Uint8List? galleryImage;
+  Future<void> openGallery() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final imageBytes = await image.readAsBytes();
+      setState(() {
+        galleryImage = imageBytes;
+      });
+    }
+  }
 
+  // Show all chat on the screen
   @override
   void initState() {
     super.initState();
-    initializeZegoEngine();
-    messageStream = fireStore.collection('MessageID').orderBy('time').snapshots();
-  }
-
-  @override
-  void dispose() {
-    messageTxt.dispose();
-    ZegoExpressEngine.destroyEngine();
-    super.dispose();
-  }
-
-  void initializeZegoEngine()  {
-     ZegoExpressEngine.createEngine(appID, appSign, isTestEnv, scenario);
-    //zegoEngine = ZegoExpressEngine.getInstance();
-    // Configure other Zego settings and event listeners as needed
+    chatController = Get.put(ChatController());
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.brown.shade50,
-        body: Column(
+    return Scaffold(
+      backgroundColor: Colors.purple.shade50,
+      appBar: AppBar(
+        title: Text('Chat Helper'),
+        backgroundColor: Colors.deepPurple.shade200,
+      ),
+      body: SafeArea(
+        child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                //when click in icon of calll open call page and start call when click on btn in call page
+                SizedBox(
+                  width: 50, // Set a specific width
+                  child: BottomNavigationBar(
+                    currentIndex: currentIndex,
+                    onTap: (int index) {
+                      setState(() {
+                        chatController.currentIndex = index;
+                      });
+                      if (chatController.currentIndex == 0) {
+                        // Navigate to the call page
+                        chatController.navigateToCallPage();
+                      } else {
+                        print("call failed ");
+                      }
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.call),
+                        label: "Call",
+                        backgroundColor: Colors.blue.shade200,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.video_call),
+                        label: "Video Call",
+                        backgroundColor: Colors.blue.shade200,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
-                stream: messageStream,
+                stream: fireStore
+                    .collection('MessageID')
+                    .orderBy('time')
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final responseMessage = snapshot.data!.docs;
@@ -64,62 +104,72 @@ class ChatState extends State<Chat> {
                         sender: sender,
                         previousName: previousResponse,
                       );
-
                       previousResponse = sender;
                       return messageWidget;
                     }).toList();
 
                     return ListView(
-                      reverse: true,
                       children: allMessages,
+                      reverse: true,
                     );
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.greenAccent,
-                      ),
+                    return CircularProgressIndicator(
+                      color: Colors.greenAccent,
                     );
                   }
                 },
               ),
             ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: TextField(
-                    controller: messageTxt,
-                    onChanged: (value) {},
-                    decoration: InputDecoration(
-                      hintText: 'Write your message.....',
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: 20,
-                        horizontal: 20,
-                      ),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: messageTxt,
+                      onChanged: (value) {},
+                      decoration: InputDecoration(
+                        hintText: 'Write your message...',
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  child: TextButton(
+                  IconButton(
                     onPressed: () {
                       fireStore.collection("MessageID").add({
                         'userName': auth.currentUser!.email,
                         'msg': messageTxt.text.toString(),
                         'time': DateTime.now(),
                       });
+                      messageTxt.clear();
                     },
-                    child: Icon(
+                    icon: Icon(
                       Icons.send,
-                      size: 70,
+                      color: Colors.blue.shade800,
+                      size: 50,
                     ),
                   ),
-                ),
-              ],
+                  LayoutBuilder(
+                    builder: (context, constraints) {
+                      return IconButton(
+                        onPressed: openGallery,
+                        icon: Icon(
+                          Icons.photo,
+                          size: constraints.maxHeight,
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 46.0),
+                  if (galleryImage != null)
+                    Image.memory(
+                    galleryImage!,
+                    height: 250,
+                    width: 250,
+                    ),
+                ],
+              ),
             ),
           ],
         ),
@@ -127,23 +177,3 @@ class ChatState extends State<Chat> {
     );
   }
 }
-
-// class MessageWidget extends StatelessWidget {
-//   final String msg;
-//   final String sender;
-//   final String? previousName;
-//
-//   const MessageWidget({
-//     required this.msg,
-//     required this.sender,
-//     required this.previousName,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       title: Text(sender),
-//       subtitle: Text(msg),
-//     );
-//   }
-// }

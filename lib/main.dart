@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graduation_project/Login/LogIn.dart';
 import 'package:graduation_project/Login/Register.dart';
 import 'package:graduation_project/Pages/Settiing/Setting.dart';
@@ -19,12 +20,13 @@ void main() async {
           measurementId: "G-86RE3D9SL6"
       )
   );
+
   //shared prefrence to sheck if user loged in before or not
   // SharedPreferences.getInstance().then((value){
   //email= value.getString("email").toString();
   //email = 'null';
   return runApp(
-    MaterialApp(
+    GetMaterialApp(
       debugShowCheckedModeBanner: false,
       home: Chat(),
     )

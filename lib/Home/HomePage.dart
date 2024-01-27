@@ -15,8 +15,8 @@ class HomePageState extends State<HomePage>{
   int currentIndexx = 0;
   List<Widget> get pages => [
     Profile(),
-    //Chat(),
-    Calls(),
+    Chat(),
+    CallPage(callID: ""),
     Setting(),
   ];
   bool get showAppBar => currentIndexx == 0; //  Show app bar only for the home page (index 0)
@@ -45,8 +45,8 @@ class HomePageState extends State<HomePage>{
             backgroundColor: Colors.purple.shade100,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search Page",
+            icon: Icon(Icons.call),
+            label: "Call Page",
             backgroundColor: Colors.purple.shade100,
           ),
           BottomNavigationBarItem(

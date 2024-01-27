@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 
 
 class MessageWidget extends StatelessWidget{
-  String? msg ,sender,previousName;
+  final String? msg;
+  final String? sender;
+  final String? previousName;
   var auth = FirebaseAuth.instance;
 
   MessageWidget({this.sender,this.msg,this.previousName});

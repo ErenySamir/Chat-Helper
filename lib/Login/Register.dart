@@ -213,12 +213,12 @@ class RegisterState extends State<Register> {
 
                                   print("current User ${auth.currentUser}");
                                 }
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Calls(),
-                                  ),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => CallPage(),
+                                //   ),
+                                // );
                               } catch (e) {
                                 print("Error: $e");
                               }
