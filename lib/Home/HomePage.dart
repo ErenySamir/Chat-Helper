@@ -15,8 +15,8 @@ class HomePageState extends State<HomePage>{
   int currentIndexx = 0;
   List<Widget> get pages => [
     Profile(),
-    Chat(),
     CallPage(callID: ""),
+    Chat(),
     Setting(),
   ];
   bool get showAppBar => currentIndexx == 0; //  Show app bar only for the home page (index 0)
@@ -26,12 +26,12 @@ class HomePageState extends State<HomePage>{
     return Scaffold(
       appBar: showAppBar
           ? AppBar(
-        backgroundColor: Colors.purple.shade100,
+        backgroundColor: Colors.blue.shade50,
         title: Text("Home Page"),
       )
           : null,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.purple.shade500,
+        backgroundColor: Colors.blue.shade100,
         currentIndex: currentIndexx,
         onTap: (index) {
           setState(() {
@@ -40,24 +40,24 @@ class HomePageState extends State<HomePage>{
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Profile Page",
-            backgroundColor: Colors.purple.shade100,
+            icon: Icon(Icons.person,size: 25,color: Colors.blue.shade900,),
+            label: "Profile ",
+            backgroundColor: Colors.blue.shade50,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.call),
-            label: "Call Page",
-            backgroundColor: Colors.purple.shade100,
+            icon: Icon(Icons.call,size: 25,color: Colors.blue.shade900,),
+            label: "Call ",
+            backgroundColor: Colors.blue.shade50,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: "Chat Page",
-            backgroundColor: Colors.purple.shade100,
+            icon: Icon(Icons.chat,size: 25,color: Colors.blue.shade900,),
+            label: "Chat ",
+            backgroundColor: Colors.blue.shade50,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings,size: 25,color: Colors.blue.shade900,),
             label: "Setting",
-            backgroundColor: Colors.purple.shade100,
+            backgroundColor: Colors.blue.shade50,
           ),
         ],
       ),

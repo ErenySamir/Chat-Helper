@@ -12,8 +12,10 @@ class MessageWidget extends StatelessWidget{
   MessageWidget({this.sender,this.msg,this.previousName});
   @override
   Widget build(BuildContext context) {
+    final isSender = sender == previousName;
 
     return Column(
+
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
@@ -30,7 +32,10 @@ class MessageWidget extends StatelessWidget{
               color: Colors.blue.shade900,
               fontSize: 12,
             ),)
-        ):Container()
+        ):Container(
+          alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        )
 
       ],
     );

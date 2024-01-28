@@ -24,6 +24,7 @@ class ChatState extends State<Chat> {
 
   // To open gallery
   Uint8List? galleryImage;
+
   Future<void> openGallery() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {
@@ -53,36 +54,50 @@ class ChatState extends State<Chat> {
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 //when click in icon of calll open call page and start call when click on btn in call page
                 SizedBox(
-                  width: 50, // Set a specific width
-                  child: BottomNavigationBar(
-                    currentIndex: currentIndex,
-                    onTap: (int index) {
-                      setState(() {
-                        chatController.currentIndex = index;
-                      });
-                      if (chatController.currentIndex == 0) {
-                        // Navigate to the call page
-                        chatController.navigateToCallPage();
-                      } else {
-                        print("call failed ");
-                      }
-                    },
-                    items: [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.call),
-                        label: "Call",
-                        backgroundColor: Colors.blue.shade200,
-                      ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.video_call),
-                        label: "Video Call",
-                        backgroundColor: Colors.blue.shade200,
-                      ),
-                    ],
+                  width: 400, // Set a specific width
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: BottomNavigationBar(
+                      currentIndex: currentIndex,
+                      onTap: (int index) {
+                        setState(() {
+                          chatController.currentIndex = index;
+                        });
+                        if (chatController.currentIndex == 0) {
+                          // Navigate to the call page
+                          chatController.navigateToCallPage();
+                        } else {
+                          print("call failed ");
+                        }
+                      },
+                      items: [
+                        BottomNavigationBarItem(
+                          icon: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Icon(Icons.call,
+                              size: 25,
+                              color: Colors.blue.shade900,
+
+                            ),
+                          ),
+                          label: "Voice Call",
+                        ),
+                        BottomNavigationBarItem(
+                          icon: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Icon(Icons.video_call,
+                              size: 25,
+                              color: Colors.blue.shade900,
+                            ),
+                          ),
+                          label: "Video Call",
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -94,23 +109,29 @@ class ChatState extends State<Chat> {
                     .orderBy('time')
                     .snapshots(),
                 builder: (context, snapshot) {
+                  //List<Text>allMessages=[]; this line  to avoid repeat data
+                  List<MessageWidget> allMessages = [];
                   if (snapshot.hasData) {
-                    final responseMessage = snapshot.data!.docs;
-                    final allMessages = responseMessage.map((message) {
-                      final txt = message.get('msg') as String;
-                      final sender = message.get('userName') as String;
-                      final messageWidget = MessageWidget(
-                        msg: txt,
-                        sender: sender,
-                        previousName: previousResponse,
-                      );
-                      previousResponse = sender;
-                      return messageWidget;
-                    }).toList();
-
-                    return ListView(
-                      children: allMessages,
-                      reverse: true,
+                    var responseMessage = snapshot.data!.docs;
+                    print(responseMessage.length.toString() + 'chatlength');
+                    for (int i = 0; i < responseMessage.length; i++) {
+                      String txt = responseMessage[i].get('msg');
+                      String Sender = responseMessage[i].get('userName');
+                      if (i > 0) {
+                        previousResponse =
+                            responseMessage[i - 1].get('userName');
+                      }
+                      allMessages.add(MessageWidget(
+                          msg: txt,
+                          sender: Sender,
+                          previousName: previousResponse));
+                    }
+                    return Expanded(
+                      child: ListView(
+                        // scrollDirection: Axis.vertical,shrinkWrap: true -> دول بحظهم لو انا هسييب الليست فاضيه
+                        children: allMessages,
+                        reverse: true,
+                      ),
                     );
                   } else {
                     return CircularProgressIndicator(
@@ -146,7 +167,7 @@ class ChatState extends State<Chat> {
                     },
                     icon: Icon(
                       Icons.send,
-                      color: Colors.blue.shade800,
+                      color: Colors.blue.shade900,
                       size: 50,
                     ),
                   ),
@@ -155,8 +176,9 @@ class ChatState extends State<Chat> {
                       return IconButton(
                         onPressed: openGallery,
                         icon: Icon(
+                          color: Colors.blue.shade900,
                           Icons.photo,
-                          size: constraints.maxHeight,
+                          size: 25,
                         ),
                       );
                     },
@@ -164,9 +186,9 @@ class ChatState extends State<Chat> {
                   SizedBox(height: 46.0),
                   if (galleryImage != null)
                     Image.memory(
-                    galleryImage!,
-                    height: 250,
-                    width: 250,
+                      galleryImage!,
+                      height: 250,
+                      width: 250,
                     ),
                 ],
               ),

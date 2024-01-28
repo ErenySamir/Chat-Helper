@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/Login/LogIn.dart';
+import 'package:graduation_project/Login/LoginTest.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -23,7 +24,7 @@ class SplashScreenState extends State<SplashScreen>{
         context,
         MaterialPageRoute(
           builder: (context) =>
-              LogIn(),
+              LoginTest(),
         ),
       );
     });
@@ -31,7 +32,7 @@ class SplashScreenState extends State<SplashScreen>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.purple.shade200,
+          backgroundColor: Colors.blue.shade100,
           title: Text("Welcome")),
         body: Center(
           child: Image.asset('assets/images/splash.jpg'),

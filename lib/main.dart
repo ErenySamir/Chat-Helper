@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graduation_project/Login/LogIn.dart';
 import 'package:graduation_project/Login/Register.dart';
+import 'package:graduation_project/Login/SplashScreen.dart';
 import 'package:graduation_project/Pages/Settiing/Setting.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Pages/Chats/Chat.dart';
 
 void main() async {
@@ -22,13 +24,15 @@ void main() async {
   );
 
   //shared prefrence to sheck if user loged in before or not
-  // SharedPreferences.getInstance().then((value){
-  //email= value.getString("email").toString();
-  //email = 'null';
-  return runApp(
-    GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Chat(),
-    )
-  );
-}
+  // String email="";
+  // SharedPreferences.getInstance().then((value) {
+  //   email = value.getString("email").toString();
+  //   email = 'null';
+    return runApp(
+        GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen(),
+        )
+    );
+
+  }

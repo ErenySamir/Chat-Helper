@@ -16,7 +16,7 @@ class Register extends StatefulWidget {
 
 class RegisterState extends State<Register> {
   //shared prefrence to sheck if user loged in before or not
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
   List<String> dropDown = ["User", "Helper"];
   String selectedState = "User";
   var auth = FirebaseAuth.instance;
