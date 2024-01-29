@@ -6,7 +6,9 @@ import 'package:graduation_project/Login/Register.dart';
 import 'package:graduation_project/Login/SplashScreen.dart';
 import 'package:graduation_project/Pages/Settiing/Setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Login/LoginTest.dart';
 import 'Pages/Chats/Chat.dart';
+import 'Pages/Helper/Helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,11 +30,10 @@ void main() async {
   // SharedPreferences.getInstance().then((value) {
   //   email = value.getString("email").toString();
   //   email = 'null';
-    return runApp(
-        GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
-        )
-    );
-
-  }
+  return runApp(
+      GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        home:LoginTest(),
+      )
+  );
+}

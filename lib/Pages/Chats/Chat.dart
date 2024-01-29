@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
+import 'package:desktop_drop/desktop_drop.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,11 +19,16 @@ class Chat extends StatefulWidget {
 class ChatState extends State<Chat> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  //get name & msg
   TextEditingController messageTxt = TextEditingController();
+  TextEditingController NameTxt = TextEditingController();
+
   String? previousResponse;
   int currentIndex = 0;
   late ChatController chatController;
-
+  //allow to send files
+  final List<XFile> listofFiles = [];
+  bool dragging = false;
   // To open gallery
   Uint8List? galleryImage;
 
@@ -44,6 +51,7 @@ class ChatState extends State<Chat> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.purple.shade50,
       appBar: AppBar(
@@ -116,23 +124,31 @@ class ChatState extends State<Chat> {
                     print(responseMessage.length.toString() + 'chatlength');
                     for (int i = 0; i < responseMessage.length; i++) {
                       String txt = responseMessage[i].get('msg');
-                      String Sender = responseMessage[i].get('userName');
+                     // String Sender = responseMessage[i].get('userName');
+                      String Name = responseMessage[i].get('Name');
+                     // String type = responseMessage[i].get('type');
+
+
                       if (i > 0) {
                         previousResponse =
-                            responseMessage[i - 1].get('userName');
+                            responseMessage[i - 1].get('Name');
                       }
-                      allMessages.add(MessageWidget(
-                          msg: txt,
-                          sender: Sender,
-                          previousName: previousResponse));
-                    }
-                    return Expanded(
-                      child: ListView(
-                        // scrollDirection: Axis.vertical,shrinkWrap: true -> دول بحظهم لو انا هسييب الليست فاضيه
-                        children: allMessages,
-                        reverse: true,
-                      ),
-                    );
+                    //   allMessages.add(MessageWidget(
+                    //       msg: txt,
+                    //      // User_Name: Name,
+                    //      // User_Tybe: type,
+                    //       previousName: previousResponse));
+                     }
+                    return 
+                      Scaffold(
+                        body: Expanded(
+                        child: ListView(
+                          // scrollDirection: Axis.vertical,shrinkWrap: true -> دول بحظهم لو انا هسييب الليست فاضيه
+                          children: allMessages,
+                          reverse: true,
+                        ),
+                                            ),
+                      );
                   } else {
                     return CircularProgressIndicator(
                       color: Colors.greenAccent,
@@ -158,10 +174,14 @@ class ChatState extends State<Chat> {
                   ),
                   IconButton(
                     onPressed: () {
+
+
                       fireStore.collection("MessageID").add({
                         'userName': auth.currentUser!.email,
                         'msg': messageTxt.text.toString(),
+                        'Name':NameTxt.text.toString(),
                         'time': DateTime.now(),
+
                       });
                       messageTxt.clear();
                     },
@@ -171,6 +191,59 @@ class ChatState extends State<Chat> {
                       size: 50,
                     ),
                   ),
+  //*************************************************************************
+                  //draggg files
+                  GestureDetector(
+                    onTap: () async {
+                      // Handle the file sending logic here
+                      if (listofFiles.isEmpty) {
+                        // Select file
+                        FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+                        if (result != null && result.files.isNotEmpty) {
+                          setState(() {
+                            listofFiles.addAll(result.files.map((file) => XFile(file.name)));
+                            listofFiles.addAll(result.files.map((file) => XFile(file.name)));
+                          });
+                        }
+                      } else {
+                        // Send the files
+                        // Implement your file sending logic here
+                        // You can access the list of XFile objects using the listofFiles variable
+                      }
+                    },
+                    child: DropTarget(
+                      onDragDone: (detail) {
+                        setState(() {
+                          listofFiles.addAll(detail.files);
+                        });
+                      },
+                      onDragEntered: (detail) {
+                        setState(() {
+                          dragging = true;
+                        });
+                      },
+                      onDragExited: (detail) {
+                        setState(() {
+                          dragging = false;
+                        });
+                      },
+                      child: Container(
+                        child: listofFiles.isEmpty
+                            ? Center(child: Icon(Icons.attach_file, size: 25, color: Colors.blue.shade900))
+                            : Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Icon(Icons.attach_file, size: 25),
+                            // SizedBox(height: 10),
+                            Text(listofFiles.map((file) => file.name).join("\n")),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+    //*************************************************************************
+
                   LayoutBuilder(
                     builder: (context, constraints) {
                       return IconButton(

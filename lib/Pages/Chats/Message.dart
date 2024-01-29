@@ -7,9 +7,12 @@ class MessageWidget extends StatelessWidget{
   final String? msg;
   final String? sender;
   final String? previousName;
+  final String? User_Name;
+  final String? User_Tybe;
+
   var auth = FirebaseAuth.instance;
 
-  MessageWidget({this.sender,this.msg,this.previousName});
+  MessageWidget({this.sender,this.msg,this.previousName,this.User_Name,this.User_Tybe});
   @override
   Widget build(BuildContext context) {
     final isSender = sender == previousName;

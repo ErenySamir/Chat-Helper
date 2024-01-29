@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:html';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/Login/LogIn.dart';
@@ -13,7 +14,8 @@ class SplashScreen extends StatefulWidget {
   }
 }
 class SplashScreenState extends State<SplashScreen>{
-  int counter=0;
+  int counter=0;  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
   @override
   //this function بتاخر الحاجه اللي جواها لمده انا اللي بحددها
   void initState(){
@@ -30,6 +32,7 @@ class SplashScreenState extends State<SplashScreen>{
     });
   }
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.blue.shade100,

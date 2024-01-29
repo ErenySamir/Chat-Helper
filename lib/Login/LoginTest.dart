@@ -1,109 +1,218 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-// import 'package:flutterfirebase/auth_controller.dart';
-import 'package:get/get.dart';
+import '../Pages/Chats/Chat.dart';
 
-import '../Controller/AuthController.dart';
 
-class LoginTest extends StatelessWidget {
+class LoginTest extends StatelessWidget{
+
+  var _auth = FirebaseAuth.instance;
+  var password = '';
+  var Email = '';
+  var emailLink;
+  TextEditingController Name = TextEditingController();
+  TextEditingController type = TextEditingController();
+  TextEditingController state = TextEditingController();
+  var _fireStore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
-    var EmailController = TextEditingController();
-    var PasswordController = TextEditingController();
 
-    AuthController controller = Get.put(AuthController());
-
-    List<String> dropDown = ["User", "Helper"];
-    String selectedState = "User";
-    var password = '';
-    var email = '';
-    String emailErrorText = '';
-    String passwordErrorText = '';
-    final _formKey = GlobalKey<FormState>();
-    bool isEmailValid(String email) {
-      return RegExp(r'^[\w-\.]+@[a-zA-Z]+\.[a-zA-Z]{2,}$').hasMatch(email);
-    }
-
-    void validateEmail(String value) {
-      if (value.isEmpty) {
-        Get.put(emailErrorText = 'Email is required');
-      } else if (!isEmailValid(value)) {
-        Get.put(emailErrorText = 'Enter a valid email address');
-      } else {
-        Get.put(emailErrorText = '');
-      }
-    }
-
-    void validatePassword(String value) {
-      if (value.isEmpty) {
-        Get.put(passwordErrorText = 'Password is required');
-      } else if (value.length < 6) {
-        Get.put(
-            passwordErrorText = 'Password must be at least 6 characters long');
-      } else {
-        Get.put(passwordErrorText = '');
-      }
-    }
-
-    print('object');
-
-    return Scaffold(
-      body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Image.asset(
-                'assets/images/login.jpg',
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(1.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextField(
-                        controller: EmailController,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Your Email',
-                        )),
-                    TextField(
-                        controller: PasswordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Enter Your password',
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: DropdownButtonFormField<String>(
-                        value: selectedState,
-                        items: dropDown.map((String educationLevel) {
-                          return DropdownMenuItem<String>(
-                            value: educationLevel,
-                            child: Text(educationLevel),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          if (newValue != null) {
-                            Get.put(selectedState = newValue);
-                          }
-                        },
-                      ),
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          controller.register(EmailController.text.trim(),
-                              PasswordController.text.trim());
-                        },
-                        child: Text("Sign Up"))
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: SizedBox(width: 300,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    controller: Name,
+                    // onChanged: (value){
+                    //   Name!;
+                    // },
+                    decoration: InputDecoration(
+                        hintText: 'Enter Your Name' ,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10 ,
+                          horizontal: 20,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.pink , width: 1
+                            )
+                        )
+                    ),),
                 ),
               ),
+            ) ,
+            Center(
+              child: SizedBox(width: 300,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    controller: type,
+                    // onChanged: (value){
+                    //   Name!;
+                    // },
+                    decoration: InputDecoration(
+                        hintText: 'Enter Your type Helper or deaf' ,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10 ,
+                          horizontal: 20,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.pink , width: 1
+                            )
+                        )
+                    ),),
+                ),
+              ),
+            ) ,
+            Center(
+              child: SizedBox(width: 300,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    controller: state,
+                    // onChanged: (value){
+                    //   Name!;
+                    // },
+                    decoration: InputDecoration(
+                        hintText: 'Available or not' ,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10 ,
+                          horizontal: 20,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.pink , width: 1
+                            )
+                        )
+                    ),),
+                ),
+              ),
+            ) ,
+            Center(
+              child: SizedBox(width: 300,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    textAlign: TextAlign.center,
+                    onChanged: (value){
+                      Email= value;
+                    },
+                    decoration: InputDecoration(
+                        hintText: 'Enter Your Email' ,
+                        contentPadding: EdgeInsets.symmetric(
+                          vertical: 10 ,
+                          horizontal: 20,
+                        ),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10))
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.pink , width: 1
+                            )
+                        )
+                    ),),
+                ),
+              ),
+            ) ,
+            SizedBox(height: 10),
+            SizedBox(width: 300,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  obscureText: true,
+                  textAlign: TextAlign.center,
+                  onChanged: (value){
+                    password= value;
+                  },
+                  decoration: InputDecoration(
+                      hintText: 'Enter Your Password' ,
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 10 ,
+                        horizontal: 20,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: Colors.pink , width: 1
+                          )
+                      )
+                  ),),
+              ),
             ),
-          ]),
+            SizedBox(height:60),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink,),
+                  onPressed: () async {
+                    await _auth.signInWithEmailAndPassword(email: Email, password: password);
+                    if(_auth.currentUser !=null){
+                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Chat()));
+                    }}, child: Text('Sign In') ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
+                  onPressed: () async {
+                    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+                    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+                    final credential = GoogleAuthProvider.credential(
+                      accessToken: googleAuth?.accessToken,
+                      idToken: googleAuth?.idToken,
+                    );
+                    await FirebaseAuth.instance.signInWithCredential(credential);
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Chat()));
+
+                  }, child: Text('Sign In With Gmail')),
+            ),
+
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink,),
+                  onPressed: () async {
+                    _fireStore.collection("DataEntered").add({
+                      // "sender": _auth.currentUser!.email,
+                      "name" : Name.text.toString(),
+                      "state" : state.text.toString(),
+                      "type" : type.text.toString(),
+                    });
+                    await _auth.createUserWithEmailAndPassword(email: Email, password: password);
+                    // if(_auth.currentUser = Emp) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Chat()));
+                  } , child: Text('Sign Up New') ),
+            )
+          ],),
+      ),
     );
   }
 }

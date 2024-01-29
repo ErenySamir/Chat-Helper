@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +37,18 @@ class AuthController extends GetxController{
     }
   }
 
-  Future<void> register(String email , password) async {
-    try{
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
+  register(String email , password) async {
+    try{      print(email+'hhh');
+
+    await auth.createUserWithEmailAndPassword(email: email, password: password);
+      final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+
+      fireStore.collection("DataEntered").add({
+        'Name': 'test',
+        'userName': auth.currentUser!.email,
+        'time': DateTime.now(),
+
+      });
     }
     catch(e){
       Get.snackbar('About User', 'User message' ,

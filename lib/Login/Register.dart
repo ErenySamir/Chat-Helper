@@ -162,6 +162,9 @@ class RegisterState extends State<Register> {
                           style: TextStyle(color: Colors.red),
                         ),
                       ),
+
+
+
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
