@@ -34,7 +34,7 @@ class DeafState extends State<Deaf> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade100,
+      backgroundColor: Colors.pink.shade100,
       body: SafeArea(
         child: ListView.builder(
           itemCount: documentIds.length,
@@ -42,31 +42,33 @@ class DeafState extends State<Deaf> {
             String documentId = documentIds[index];
             Map<String, dynamic> userData = userDataList[index];
 
-            return ListTile(
-              title: Text('Document ID: $documentId',style: TextStyle(
-                  fontSize: 18,
-                  height: 2, //line height 200%, 1= 100%, were 0.9 = 90% of actual line height
-                  color: Colors.redAccent, //font color
-                  backgroundColor: Colors.black12, //background color
-                  letterSpacing: 5, //letter spacing
-                  decoration: TextDecoration.underline, //make underline
-                  decorationStyle: TextDecorationStyle.double, //double underline
-                  decorationColor: Colors.brown, //text decoration 'underline' color
-                  decorationThickness: 1.5, //decoration 'underline' thickness
-                  fontStyle: FontStyle.italic
-              ), ),
-              subtitle: Text('Data: ${userData.toString()}',style: TextStyle(
-                  fontSize: 18,
-                  height: 2, //line height 200%, 1= 100%, were 0.9 = 90% of actual line height
-                  color: Colors.redAccent, //font color
-                  backgroundColor: Colors.black12, //background color
-                  letterSpacing: 5, //letter spacing
-                  decoration: TextDecoration.underline, //make underline
-                  decorationStyle: TextDecorationStyle.double, //double underline
-                  decorationColor: Colors.brown, //text decoration 'underline' color
-                  decorationThickness: 1.5, //decoration 'underline' thickness
-                  fontStyle: FontStyle.italic
-              ),),
+            return Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.grey,
+                  width: 3.0,
+                ),
+              ),
+              child: ListTile(
+                title: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black,
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  padding: EdgeInsets.only(bottom: 1.0),
+                  child: Text(
+                    'Document ID: $documentId',
+                  ),
+                ),
+                subtitle: Container(
+                  padding: EdgeInsets.only(top: 1.0),
+                  child: Text('Data: ${userData.toString()}'),
+                ),
+              ),
             );
           },
         ),
