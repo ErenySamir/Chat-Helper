@@ -22,9 +22,9 @@ class CallPage extends StatelessWidget {
               appID: 267164922,
               appSign:
               '8a70ba787132f9f5d71d7f7761197ae53735751f3dd0c7b3cff7e76fbcf89788',
-              userID: '8h0WV1C3VDMawasslf5O',
-              userName: 'user_one',
-              callID: callID,
+              userID: '1',
+              userName: 'user_Two',
+              callID: '2',
               config: ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall(),
             ),
           ],

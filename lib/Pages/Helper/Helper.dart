@@ -27,6 +27,7 @@ class HelperState extends State<Helper> {
             ),
             SizedBox(height: 20),
             ToggleSwitch(
+
               minWidth: 120.0,
               initialLabelIndex: isInstructionAvailable ? 0 : 1,
               cornerRadius: 60.0,

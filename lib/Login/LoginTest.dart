@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../Pages/Chats/Chat.dart';
+import '../Pages/Chats/ZegoChat.dart';
 
 
 class LoginTest extends StatelessWidget{
@@ -26,6 +27,12 @@ class LoginTest extends StatelessWidget{
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Expanded(
+              child: Image.asset(
+                'assets/images/login.jpg',
+                fit: BoxFit.fitHeight,
+              ),
+            ),
             Center(
               child: SizedBox(width: 300,
                 child: Padding(
@@ -167,7 +174,7 @@ class LoginTest extends StatelessWidget{
             SizedBox(height:60),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink,),
+              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent.shade100,),
                   onPressed: () async {
                     await _auth.signInWithEmailAndPassword(email: Email, password: password);
                     if(_auth.currentUser !=null){
@@ -178,7 +185,7 @@ class LoginTest extends StatelessWidget{
 
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink),
+              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent.shade100),
                   onPressed: () async {
                     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
                     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
@@ -189,7 +196,7 @@ class LoginTest extends StatelessWidget{
                     await FirebaseAuth.instance.signInWithCredential(credential);
 
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Chat()));
+                        MaterialPageRoute(builder: (context) => ZegoChat()));
 
                   }, child: Text('Sign In With Gmail')),
             ),
@@ -197,7 +204,7 @@ class LoginTest extends StatelessWidget{
 
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.pink,),
+              child: ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent.shade100,),
                   onPressed: () async {
                     _fireStore.collection("DataEntered").add({
                       // "sender": _auth.currentUser!.email,
@@ -208,7 +215,7 @@ class LoginTest extends StatelessWidget{
                     await _auth.createUserWithEmailAndPassword(email: Email, password: password);
                     // if(_auth.currentUser = Emp) {
                     Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Chat()));
+                        MaterialPageRoute(builder: (context) => ZegoChat()));
                   } , child: Text('Sign Up New') ),
             )
           ],),

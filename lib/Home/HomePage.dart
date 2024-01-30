@@ -5,6 +5,8 @@ import 'package:graduation_project/Pages/Chats/Chat.dart';
 import 'package:graduation_project/Pages/Profile/ProfilePage.dart';
 import 'package:graduation_project/Pages/Settiing/Setting.dart';
 
+import '../Pages/Chats/ZegoChat.dart';
+
 class HomePage extends StatefulWidget{
   @override
   State<HomePage> createState() {
@@ -16,7 +18,7 @@ class HomePageState extends State<HomePage>{
   List<Widget> get pages => [
     Profile(),
     CallPage(callID: ""),
-    Chat(),
+    ZegoChat(),
     Setting(),
   ];
   bool get showAppBar => currentIndexx == 0; //  Show app bar only for the home page (index 0)

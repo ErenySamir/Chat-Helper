@@ -133,11 +133,11 @@ class ChatState extends State<Chat> {
                         previousResponse =
                             responseMessage[i - 1].get('Name');
                       }
-                    //   allMessages.add(MessageWidget(
-                    //       msg: txt,
-                    //      // User_Name: Name,
-                    //      // User_Tybe: type,
-                    //       previousName: previousResponse));
+                      allMessages.add(MessageWidget(
+                          msg: txt,
+                         User_Name: Name,
+                         // User_Tybe: type,
+                          previousName: previousResponse));
                      }
                     return 
                       Scaffold(
