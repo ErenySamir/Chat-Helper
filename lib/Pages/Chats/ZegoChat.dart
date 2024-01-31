@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zego_express_engine/zego_express_engine.dart';
+import 'package:zego_zim/zego_zim.dart';
 
 import '../../Controller/ChatController.dart';
 
 class ZegoChat extends StatefulWidget {
-  //constructor to allow move from deaf page
-
-
   @override
   ZegoChatState createState() => ZegoChatState();
 }
@@ -22,13 +20,12 @@ class ZegoChatState extends State<ZegoChat> {
   String userID = 'your_user_id';
   String userName = 'user_jessy';
 
-  // Zego sign in and login
-  int appId = 1925638511;
-  String appSignIn =
-      '41a41e8993fcc270a4153ac167d83dc35a6b3bbb164fb18adccf7f80e83a0298';
+
 
   List<String> messages = [];
   TextEditingController textEditingController = TextEditingController();
+
+
 
   @override
   void initState() {
@@ -66,6 +63,14 @@ class ZegoChatState extends State<ZegoChat> {
   bool showProgress = true;
   @override
   Widget build(BuildContext context) {
+
+    // Zego sign in and login
+    ZIMAppConfig appConfig = ZIMAppConfig();
+    appConfig.appID = 1925638511;
+    appConfig.appSign = '41a41e8993fcc270a4153ac167d83dc35a6b3bbb164fb18adccf7f80e83a0298';
+    ZIM.create(appConfig);
+
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Chat'),

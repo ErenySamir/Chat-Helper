@@ -42,7 +42,7 @@ void main() async {
 
       GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home:LoginTest(),
+        home:ZegoChat(),
       )
   );
 }

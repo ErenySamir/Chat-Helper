@@ -61,8 +61,8 @@ class HelperState extends State<Helper> {
               totalSwitches: 2,
               labels: ['Available', 'Not Available'],
               activeBgColors: [
-                [Colors.black12],
-                [Colors.black12]
+                [Colors.black87],
+                [Colors.black87]
               ],
               onToggle: (index) async {
                 setState(() {
