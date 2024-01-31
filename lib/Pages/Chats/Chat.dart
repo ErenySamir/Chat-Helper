@@ -174,8 +174,6 @@ class ChatState extends State<Chat> {
                   ),
                   IconButton(
                     onPressed: () {
-
-
                       fireStore.collection("MessageID").add({
                         'userName': auth.currentUser!.email,
                         'msg': messageTxt.text.toString(),

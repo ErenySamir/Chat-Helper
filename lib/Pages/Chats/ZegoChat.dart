@@ -5,11 +5,16 @@ import 'package:zego_express_engine/zego_express_engine.dart';
 import '../../Controller/ChatController.dart';
 
 class ZegoChat extends StatefulWidget {
+  //constructor to allow move from deaf page
+
+
   @override
   ZegoChatState createState() => ZegoChatState();
 }
 
 class ZegoChatState extends State<ZegoChat> {
+
+
   late ChatController chatController;
   int currentIndex = 0;
 
@@ -33,24 +38,23 @@ class ZegoChatState extends State<ZegoChat> {
   }
 
   void initializeZego() async {
-    // await ZegoExpressEngine.initSDK(1925638511, '41a41e8993fcc270a4153ac167d83dc35a6b3bbb164fb18adccf7f80e83a0298');
+
+
     ZegoExpressEngine.onIMRecvBroadcastMessage =
         (String roomID, List<ZegoBroadcastMessageInfo> messageList) {
       setState(() {
         for (var message in messageList) {
-          messages.add('${message.fromUser.userID}: ${message.fromUser}');
+          messages.add('${message.fromUser.userID}: ${message.message}');
         }
       });
     };
-
-    ZegoExpressEngine.instance.loginRoom(roomID, ZegoUser(userID, userName));
+    await ZegoExpressEngine.instance.loginRoom(roomID, ZegoUser(userID, userName));
   }
-
   void sendMessage() {
     String messageContent = textEditingController.text;
     if (messageContent.isNotEmpty) {
       ZegoExpressEngine.instance.sendBroadcastMessage(roomID, messageContent);
-      textEditingController.clear();
+      textEditingController.clear(); // Uncomment this line
     }
   }
 
@@ -59,7 +63,7 @@ class ZegoChatState extends State<ZegoChat> {
     ZegoExpressEngine.instance.logoutRoom(roomID);
     super.dispose();
   }
-
+  bool showProgress = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +74,8 @@ class ZegoChatState extends State<ZegoChat> {
         child: Column(
           children: [
             //load screen
-            CircularProgressIndicator(),
+           // CircularProgressIndicator(),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [

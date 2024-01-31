@@ -42,7 +42,7 @@ void main() async {
 
       GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home:Deaf(),
+        home:LoginTest(),
       )
   );
 }
