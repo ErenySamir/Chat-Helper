@@ -214,8 +214,14 @@ crossAxisAlignment: CrossAxisAlignment.start,
                     await _auth.createUserWithEmailAndPassword(
                         email: Email, password: password);
                     if (_auth.currentUser != null) {
+                      //shared prefrence to save login
                       SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
+                      await SharedPreferences.getInstance();
+                      await prefs.setString('email', _auth.currentUser!.email.toString());
+                      await prefs.setString('name', Name.text.toString(),);
+                      print(_auth.currentUser!.email.toString()+" email");
+                      print(Name.text.toString()+" name");
+
                       if (role == 'deaf') {
                         await _fireStore.collection("DataEntered").add({
                           "email": _auth.currentUser!.email,

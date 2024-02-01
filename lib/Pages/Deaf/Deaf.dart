@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graduation_project/Pages/Chats/ZegoChat.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Deaf extends StatefulWidget {
   @override
@@ -14,11 +15,20 @@ class DeafState extends State<Deaf> {
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   List<String> documentIds = [];
   List<Map<String, dynamic>> userDataList = [];
+  String nameshared = "";
 
   @override
   void initState() {
     super.initState();
     getResponse();
+    initSharedPreferences();
+  }
+
+  Future<void> initSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      nameshared = prefs.getString("name") ?? "";
+    });
   }
 
   getResponse() async {
@@ -42,6 +52,7 @@ class DeafState extends State<Deaf> {
           itemBuilder: (context, index) {
             String documentId = documentIds[index];
             Map<String, dynamic> userData = userDataList[index];
+            String helperName = userData['helperName']; // Replace 'helperName' with the key for the helper's name in your data structure
 
             return Padding(
               padding: const EdgeInsets.all(8.0),
@@ -62,18 +73,18 @@ class DeafState extends State<Deaf> {
                         ),
                       ),
                     ),
-                    //to print id of user from firebase
+                    // Print the helper's name
                     padding: EdgeInsets.only(bottom: 8.0),
                     child: Text(
-                      'Document ID: $documentId',
+                      'Helper Name: $helperName',
                     ),
-
                   ),
-                  //to print all data of user from firebase
                   subtitle: GestureDetector(
                     onTap: () {
-                      // //navigate to move to zego chat page when click on document
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => ZegoChat()));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ZegoChat()),
+                      );
                     },
                     child: Container(
                       padding: EdgeInsets.only(top: 8.0),

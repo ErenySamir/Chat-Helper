@@ -4,6 +4,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graduation_project/Login/LogIn.dart';
 import 'package:graduation_project/Login/Register.dart';
 import 'package:graduation_project/Login/SplashScreen.dart';
+import 'package:graduation_project/Pages/Profile/ProfilePage.dart';
 import 'package:graduation_project/Pages/Settiing/Setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zego_zimkit/zego_zimkit.dart';
@@ -38,11 +39,17 @@ void main() async {
     appID: 1925638511, // your appid
     appSign: '41a41e8993fcc270a4153ac167d83dc35a6b3bbb164fb18adccf7f80e83a0298', // your appSign
   );
-  return runApp(
-
-      GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        home:ZegoChat(),
-      )
+  //shared prefrence to sheck if user loged in before or not
+  String email="";
+  SharedPreferences.getInstance().then((value) {
+    email = value.getString("email").toString();
+    email = 'null';
+    return runApp(
+        GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: SplashScreen(),
+        )
+    );
+  }
   );
 }

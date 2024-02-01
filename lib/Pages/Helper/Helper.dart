@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class Helper extends StatefulWidget {
@@ -13,13 +14,23 @@ class Helper extends StatefulWidget {
 class HelperState extends State<Helper> {
   bool state = false;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
+  String helperName = "";
 
   @override
   void initState() {
     super.initState();
+    initSharedPreferences();
     getRecipes();
   }
-//save state in fire base
+
+  Future<void> initSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      helperName = prefs.getString("name") ?? "";
+    });
+  }
+
+  // Save state in Firestore
   getRecipes() async {
     var response = await fireStore.collection("State").get();
     List<String> state = [];
@@ -36,7 +47,7 @@ class HelperState extends State<Helper> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
-        title: Text('Select Available or Not Available for Helper '),
+        title: Text('Select Available or Not Available for Helper'),
         backgroundColor: Colors.blueGrey.shade50,
       ),
       body: Center(
@@ -67,18 +78,18 @@ class HelperState extends State<Helper> {
               onToggle: (index) async {
                 setState(() {
                   state = index == 0;
-                  print(
-                      'Switched to: ${state ? "Available" : "Not Available"}');
+                  print('Switched to: ${state ? "Available" : "Not Available"}');
                 });
 
-                // Save the state to Firestore
+                // Save the state and helper name to Firestore
                 try {
                   await fireStore.collection('State').add({
-                    'isInstructionAvailable': state,
+                    'state': state,
+                    'helperName': helperName,
                   });
-                  print('State saved to Firestore!');
+                  print('State and helper name saved to Firestore!');
                 } catch (e) {
-                  print('Error saving state to Firestore: $e');
+                  print('Error saving state and helper name to Firestore: $e');
                 }
               },
             ),

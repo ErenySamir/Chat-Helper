@@ -36,7 +36,7 @@ class SplashScreenState extends State<SplashScreen>{
           backgroundColor: Colors.blue.shade100,
           title: Text("Welcome")),
         body: Center(
-          child: Image.asset('assets/images/splash.jpg'),
+          child: Image.asset('assets/images/welcome.jpg'),
         ) );
   }
 }
