@@ -18,9 +18,8 @@ import 'Pages/Helper/Helper.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //initializeApp بستخدمه دايما مع فايربييز
-  await Firebase.initializeApp(name:'appChat',
+  await Firebase.initializeApp(
       options: FirebaseOptions(
-
           apiKey: "AIzaSyCmFIyuzaiTZpU9rnWdC-ai5f264PgeCU8",
           authDomain: "chat-helper-2026c.firebaseapp.com",
           projectId: "chat-helper-2026c",
@@ -48,7 +47,7 @@ void main() async {
     return runApp(
         GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: LoginTest(),
+          home: Helper(),
         )
     );
   }

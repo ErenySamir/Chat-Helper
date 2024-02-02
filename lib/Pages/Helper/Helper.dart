@@ -45,10 +45,13 @@ class HelperState extends State<Helper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: Colors.white,
+
       appBar: AppBar(
-        title: Text('Select Available or Not Available for Helper'),
-        backgroundColor: Colors.blueGrey.shade50,
+        title: Text('Help others ❤️'
+        , style: TextStyle(
+              color: Colors.blue.shade900, fontWeight: FontWeight.bold ,
+              fontFamily: "Font_Stranger" , fontSize: 30),),
       ),
       body: Center(
         child: Column(
@@ -57,23 +60,21 @@ class HelperState extends State<Helper> {
             Text(
               "Select your State ",
               style: TextStyle(
-                color: Colors.black,
-                decorationStyle: TextDecorationStyle.wavy,
-              ),
-            ),
+                  color: Colors.blue.shade900, fontWeight: FontWeight.bold ,
+                  fontFamily: "Font_Stranger" , fontSize: 30),),
             SizedBox(height: 20),
             ToggleSwitch(
-              minWidth: 120.0,
+              minWidth: 150.0,
               initialLabelIndex: state ? 0 : 1,
               cornerRadius: 60.0,
-              activeFgColor: Colors.green.shade700,
+              activeFgColor: Colors.blue.shade50,
               inactiveBgColor: Colors.white60,
               inactiveFgColor: Colors.white60,
               totalSwitches: 2,
               labels: ['Available', 'Not Available'],
               activeBgColors: [
-                [Colors.black87],
-                [Colors.black87]
+                [Colors.blue.shade900],
+                [Colors.blue.shade900]
               ],
               onToggle: (index) async {
                 setState(() {

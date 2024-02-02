@@ -1,42 +1,56 @@
 import 'dart:async';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:graduation_project/Login/LoginTest.dart';
+import 'package:get/get.dart';
 
+import 'LoginTest.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatefulWidget{
   @override
   State<SplashScreen> createState() {
     return SplashScreenState();
   }
 }
+
 class SplashScreenState extends State<SplashScreen>{
-  int counter=0;  final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   @override
-  //this function بتاخر الحاجه اللي جواها لمده انا اللي بحددها
-  void initState(){
+  void initState() {
     super.initState();
-    Timer(Duration(seconds: 4),(){
-      //HomeScreen تفتح  بعد 4 دقايق
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) =>
-              LoginTest(),
-        ),
-      );
-    });
+    Timer(Duration(seconds: 5 ),
+            (){
+          Get.to(LoginTest());
+        });
   }
-  Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Colors.blue.shade100,
-          title: Text("Welcome")),
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.blue[900],
         body: Center(
-          child: Image.asset('assets/images/welcome.jpg'),
-        ) );
+            child: Column( crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(flex: 5,
+                    child: Image.asset('assets/images/welcomeScreen.jpg' ,)),
+                Expanded( flex: 1,
+                  child: Text('Chat App' ,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold ,
+                        fontFamily: "Font_Stranger" , fontSize: 30),),
+                ),
+                // SizedBox(height: 10,),
+                Expanded(flex: 1,
+                  child: SizedBox(width: 300,
+                      child: Text('Enjoy to Chating and Calling with your helper' ,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.white,
+                          fontFamily: "Font_Hey" , fontSize: 20 , ),)),
+                ),
+              ],
+            )),
+      ),
+    );
   }
 }
