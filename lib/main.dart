@@ -48,7 +48,7 @@ void main() async {
     return runApp(
         GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          home: SplashScreen(),
+          home: LoginTest(),
         )
     );
   }
