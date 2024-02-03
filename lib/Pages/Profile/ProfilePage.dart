@@ -47,6 +47,7 @@ class ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("Profile"),
         leading: BackButton(),
         backgroundColor: Colors.white,
         elevation: 0,
@@ -76,7 +77,7 @@ class ProfileState extends State<Profile> {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: Text('Choose an option'),
+                    title: Text('Upload from Gallery'),
                     content: SingleChildScrollView(
                       child: ListBody(
                         children: <Widget>[

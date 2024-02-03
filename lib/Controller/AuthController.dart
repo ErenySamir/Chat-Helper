@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Home/HomePage.dart';
-import '../Login/LoginTest.dart';
+import '../Login/LogIn.dart';
+import '../Login/UserRegister.dart';
 
 class AuthController extends GetxController{
   //AuthController Instance
@@ -31,7 +32,7 @@ class AuthController extends GetxController{
   _initialscreen(User? user){
     if(user==null){
       print('login page');
-      Get.offAll(()=> LoginTest());
+      Get.offAll(()=> LogIn());
     }else{
       Get.offAll(() => HomePage());
     }

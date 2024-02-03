@@ -28,6 +28,8 @@ class ChatState extends State<Chat> {
   late ChatController chatController;
   //allow to send files
   final List<XFile> listofFiles = [];
+  List<String> messages = [];
+
   bool dragging = false;
   // To open gallery
   Uint8List? galleryImage;
@@ -53,10 +55,10 @@ class ChatState extends State<Chat> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.purple.shade50,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Chat Helper'),
-        backgroundColor: Colors.deepPurple.shade200,
+        title: Text('Community'),
+        backgroundColor: Colors.white,
       ),
       body: SafeArea(
         child: Column(
@@ -66,49 +68,45 @@ class ChatState extends State<Chat> {
               children: [
                 //when click in icon of calll open call page and start call when click on btn in call page
                 SizedBox(
-                  width: 400, // Set a specific width
+                  width: 400,
                   child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: BottomNavigationBar(
-                      currentIndex: currentIndex,
-                      onTap: (int index) {
-                        setState(() {
-                          chatController.currentIndex = index;
-                        });
-                        if (chatController.currentIndex == 0) {
-                          // Navigate to the call page
-                          chatController.navigateToCallPage();
-                        } else {
-                          print("call failed ");
-                        }
-                      },
-                      items: [
-                        BottomNavigationBarItem(
-                          icon: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Icon(Icons.call,
-                              size: 25,
-                              color: Colors.blue.shade900,
-
-                            ),
+                    padding: const EdgeInsets.all(12.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: IconButton(
+                        //     color: Colors.blue.shade900, onPressed: () {
+                        //     chatController.navigateToCallPage();
+                        //   }, icon: Icon(Icons.call),
+                        //   ),
+                        // ),
+                        // Text("Voice Call"),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IconButton(
+                            color: Colors.blue.shade900, onPressed: () {
+                            chatController.navigateToCallPage();
+                          }, icon: Icon(Icons.video_call),
                           ),
-                          label: "Voice Call",
                         ),
-                        BottomNavigationBarItem(
-                          icon: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Icon(Icons.video_call,
-                              size: 25,
-                              color: Colors.blue.shade900,
-                            ),
-                          ),
-                          label: "Video Call",
-                        ),
+                        Text("Video Call"),
                       ],
                     ),
                   ),
                 ),
               ],
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(messages[index]),
+                  );
+                },
+              ),
             ),
             Expanded(
               child: StreamBuilder<QuerySnapshot>(
@@ -133,11 +131,11 @@ class ChatState extends State<Chat> {
                         previousResponse =
                             responseMessage[i - 1].get('Name');
                       }
-                      allMessages.add(MessageWidget(
-                          msg: txt,
-                         User_Name: Name,
-                         // User_Tybe: type,
-                          previousName: previousResponse));
+                      // allMessages.add(MessageWidget(
+                      //     msg: txt,
+                      //    User_Name: Name,
+                      //    // User_Tybe: type,
+                      //     previousName: previousResponse));
                      }
                     return 
                       Scaffold(

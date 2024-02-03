@@ -19,7 +19,7 @@ class HomePageState extends State<HomePage>{
     Profile(),
     CallPage(callID: ""),
     ZegoChat(),
-    Setting(),
+  //  Setting(),
   ];
   bool get showAppBar => currentIndexx == 0; //  Show app bar only for the home page (index 0)
 
@@ -29,7 +29,7 @@ class HomePageState extends State<HomePage>{
       appBar: showAppBar
           ? AppBar(
         backgroundColor: Colors.blue.shade50,
-        title: Text("Home Page"),
+       // title: Text("Home Page"),
       )
           : null,
       bottomNavigationBar: BottomNavigationBar(
@@ -56,13 +56,13 @@ class HomePageState extends State<HomePage>{
             label: "Chat ",
             backgroundColor: Colors.blue.shade50,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings,size: 25,color: Colors.blue.shade900,),
-            label: "Setting",
-            backgroundColor: Colors.blue.shade50,
-          ),
-        ],
-      ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings,size: 25,color: Colors.blue.shade900,),
+      //       label: "Setting",
+      //       backgroundColor: Colors.blue.shade50,
+      //     ),
+         ],
+       ),
       body: pages[currentIndexx],
     );
   }

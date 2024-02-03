@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'LoginTest.dart';
+import 'UserRegister.dart';
 
 class SplashScreen extends StatefulWidget{
   @override
@@ -19,10 +19,9 @@ class SplashScreenState extends State<SplashScreen>{
     super.initState();
     Timer(Duration(seconds: 5 ),
             (){
-          Get.to(LoginTest());
+          Get.to(UserRegister());
         });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class SplashScreenState extends State<SplashScreen>{
                 Expanded( flex: 1,
                   child: Text('Chat App' ,
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold ,
+                        color: Colors.white, fontWeight: FontWeight.bold ,backgroundColor: Colors.blue.shade900,
                         fontFamily: "Font_Stranger" , fontSize: 30),),
                 ),
                 // SizedBox(height: 10,),
