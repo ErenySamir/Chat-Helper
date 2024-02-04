@@ -200,6 +200,10 @@ class LogInState extends State<LogIn> {
                               if (_auth.currentUser != null) {
                                 SharedPreferences prefs =
                                 await SharedPreferences.getInstance();
+                                await prefs.getString("email", );
+                                await prefs.getString("name",);
+                                print(_auth.currentUser!.email.toString() + " email");
+                                print(  " name");
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

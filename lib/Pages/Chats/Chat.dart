@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Controller/ChatController.dart';
 import '../Call/Calls.dart';
 import 'Message.dart';
@@ -21,8 +22,8 @@ class ChatState extends State<Chat> {
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
   //get name & msg
   TextEditingController messageTxt = TextEditingController();
-  TextEditingController NameTxt = TextEditingController();
-
+ // TextEditingController NameTxt = TextEditingController();
+String? name;
   String? previousResponse;
   int currentIndex = 0;
   late ChatController chatController;
@@ -49,9 +50,15 @@ class ChatState extends State<Chat> {
   @override
   void initState() {
     super.initState();
+    initSharedPreferences();
     chatController = Get.put(ChatController());
   }
-
+  Future<void> initSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name=prefs.getString("name") ?? "";
+    });
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -76,8 +83,6 @@ class ChatState extends State<Chat> {
                   ),
                     Text("Video Call"),
                     //when click in icon of calll open call page and start call when click on btn in call page
-
-
                   ],
                 ),
               ),
@@ -116,7 +121,6 @@ class ChatState extends State<Chat> {
                         body: Expanded(
                         child: ListView(
                           controller: _scrollController,
-
                           // scrollDirection: Axis.vertical,shrinkWrap: true -> دول بحظهم لو انا هسييب الليست فاضيه
                           children: allMessages,
                          // reverse: true,
@@ -163,8 +167,8 @@ class ChatState extends State<Chat> {
                         'time': DateTime.now(),
 
                       });
-                      _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
-
+                      _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+                          duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
                       messageTxt.clear();
                     },
                     icon: Icon(

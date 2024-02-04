@@ -77,24 +77,34 @@ class DeafState extends State<Deaf> {
 
                 ),
                 child: ListTile(
-                  title: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 1.0,
+                  title: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Chat()),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(
+                            color: Colors.black,
+                            width: 1.0,
+                          ),
+                        ),
+                      ),
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: Text(
+                        'Name: $helperName',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          backgroundColor: Colors.blue[900],
+                          fontFamily: "Font_Stranger",
+                          fontSize: 20,
                         ),
                       ),
                     ),
-                    // Print the helper's name
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      'Name: $helperName',
-                      style: TextStyle(
-
-                          color: Colors.white, fontWeight: FontWeight.bold,backgroundColor:Colors.blue[900] ,
-                          fontFamily: "Font_Stranger" , fontSize: 20),),
-
                   ),
                   subtitle: GestureDetector(
                     onTap: () {
@@ -105,12 +115,16 @@ class DeafState extends State<Deaf> {
                     },
                     child: Container(
                       padding: EdgeInsets.only(top: 8.0),
-                      child: Text( 'Available: ${state.toString()}',
-
+                      child: Text(
+                        'Available: ${state.toString()}',
                         style: TextStyle(
-                          color: Colors.white,backgroundColor:Colors.blue[900], fontWeight: FontWeight.bold ,
-                          fontFamily: "Font_Stranger" , fontSize: 20),),
-
+                          color: Colors.white,
+                          backgroundColor: Colors.blue[900],
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Font_Stranger",
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
                   ),
                 ),

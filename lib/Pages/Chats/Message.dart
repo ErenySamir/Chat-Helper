@@ -22,10 +22,10 @@ class MessageWidget extends StatelessWidget{
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(5.0),
           child: Material(
-            color: sender == auth.currentUser!.email ? Colors.brown.shade50 : Colors.greenAccent,
-            borderRadius: BorderRadius.circular(25),
+            color: sender == auth.currentUser!.email ? Colors.brown.shade50 : Colors.green,
+            borderRadius: BorderRadius.circular(2),
             child: Text(msg!),
           ),
         ),
@@ -37,9 +37,8 @@ class MessageWidget extends StatelessWidget{
             ),)
         ):Container(
           alignment: sender == previousName ? Alignment.centerRight : Alignment.centerLeft,
-          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+          margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
         )
-
       ],
     );
   }
