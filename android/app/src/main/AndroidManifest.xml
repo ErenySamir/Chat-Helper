@@ -14,7 +14,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="graduation_project"
+        android:label="Help Me!"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

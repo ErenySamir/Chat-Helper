@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:graduation_project/Pages/Chats/ZegoChat.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../Chats/Chat.dart';
+
 class Deaf extends StatefulWidget {
   @override
   State<Deaf> createState() {
@@ -33,7 +35,6 @@ class DeafState extends State<Deaf> {
 
   getResponse() async {
     var response = await fireStore.collection("State").get();
-
     response.docs.forEach((doc) {
       setState(() {
         documentIds.add(doc.id);
@@ -99,7 +100,7 @@ class DeafState extends State<Deaf> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ZegoChat()),
+                        MaterialPageRoute(builder: (context) => Chat()),
                       );
                     },
                     child: Container(

@@ -1,6 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:graduation_project/Login/LogIn.dart';
+import 'package:graduation_project/Login/Register.dart';
+import 'package:graduation_project/Login/UserRegister.dart';
+import 'package:graduation_project/Pages/Chats/ZegoChat.dart';
+import 'package:graduation_project/Pages/Chats/test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zego_zimkit/zego_zimkit.dart';
@@ -13,12 +18,17 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize Firebase
-  await Firebase.initializeApp(
+  await Firebase.initializeApp(name: 'chat',
     options: FirebaseOptions(
-
+        apiKey: "AIzaSyCmFIyuzaiTZpU9rnWdC-ai5f264PgeCU8",
+        authDomain: "chat-helper-2026c.firebaseapp.com",
+        projectId: "chat-helper-2026c",
+        storageBucket: "chat-helper-2026c.appspot.com",
+        messagingSenderId: "470462396570",
+        appId: "1:470462396570:web:604baa40b6f007b53e8723",
+        measurementId: "G-86RE3D9SL6"
     ),
   );
-
   // Initialize Zego
   ZIMKit().init(
     appID: 1925638511, // your appid
@@ -39,13 +49,12 @@ void main() async {
     );
   });
 }
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Chat(),
+      home: SplashScreen(),
       //theme: Provider.of<ThemeProvider>(contex),
     );
   }

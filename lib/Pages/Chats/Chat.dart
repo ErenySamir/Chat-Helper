@@ -33,6 +33,7 @@ class ChatState extends State<Chat> {
   bool dragging = false;
   // To open gallery
   Uint8List? galleryImage;
+  ScrollController _scrollController = new ScrollController();
 
   Future<void> openGallery() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -61,51 +62,24 @@ class ChatState extends State<Chat> {
         backgroundColor: Colors.white,
       ),
       body: SafeArea(
-        child: Column(
+        child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                //when click in icon of calll open call page and start call when click on btn in call page
-                SizedBox(
-                  width: 400,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // Padding(
-                        //   padding: const EdgeInsets.all(8.0),
-                        //   child: IconButton(
-                        //     color: Colors.blue.shade900, onPressed: () {
-                        //     chatController.navigateToCallPage();
-                        //   }, icon: Icon(Icons.call),
-                        //   ),
-                        // ),
-                        // Text("Voice Call"),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            color: Colors.blue.shade900, onPressed: () {
-                            chatController.navigateToCallPage();
-                          }, icon: Icon(Icons.video_call),
-                          ),
-                        ),
-                        Text("Video Call"),
-                      ],
-                    ),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Container(width: 400,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [  IconButton(
+                    color: Colors.blue.shade900, onPressed: () {
+                    chatController.navigateToCallPage();
+                  }, icon: Icon(Icons.video_call),
                   ),
+                    Text("Video Call"),
+                    //when click in icon of calll open call page and start call when click on btn in call page
+
+
+                  ],
                 ),
-              ],
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(messages[index]),
-                  );
-                },
               ),
             ),
             Expanded(
@@ -118,6 +92,7 @@ class ChatState extends State<Chat> {
                   //List<Text>allMessages=[]; this line  to avoid repeat data
                   List<MessageWidget> allMessages = [];
                   if (snapshot.hasData) {
+                    // Navigator.pop(context);
                     var responseMessage = snapshot.data!.docs;
                     print(responseMessage.length.toString() + 'chatlength');
                     for (int i = 0; i < responseMessage.length; i++) {
@@ -131,26 +106,35 @@ class ChatState extends State<Chat> {
                         previousResponse =
                             responseMessage[i - 1].get('Name');
                       }
-                      // allMessages.add(MessageWidget(
-                      //     msg: txt,
-                      //    User_Name: Name,
-                      //    // User_Tybe: type,
-                      //     previousName: previousResponse));
+                       allMessages.add(MessageWidget(sender: Name,
+                           msg: txt,
+                          User_Name: Name,
+                           previousName: previousResponse));
                      }
                     return 
                       Scaffold(
                         body: Expanded(
                         child: ListView(
+                          controller: _scrollController,
+
                           // scrollDirection: Axis.vertical,shrinkWrap: true -> دول بحظهم لو انا هسييب الليست فاضيه
                           children: allMessages,
-                          reverse: true,
+                         // reverse: true,
                         ),
                                             ),
                       );
                   } else {
-                    return CircularProgressIndicator(
-                      color: Colors.greenAccent,
+                    return Center(
+                      child: AlertDialog(
+                            content: new Row(
+                              children: [
+                                CircularProgressIndicator(),
+                                Container(margin: EdgeInsets.only(left: 7),child:Text("Loading..." )),
+                              ],),
+                          ),
                     );
+
+
                   }
                 },
               ),
@@ -175,10 +159,12 @@ class ChatState extends State<Chat> {
                       fireStore.collection("MessageID").add({
                         'userName': auth.currentUser!.email,
                         'msg': messageTxt.text.toString(),
-                        'Name':NameTxt.text.toString(),
+                        'Name':'ereny',
                         'time': DateTime.now(),
 
                       });
+                      _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: const Duration(milliseconds: 500), curve: Curves.easeOut);
+
                       messageTxt.clear();
                     },
                     icon: Icon(
@@ -189,76 +175,76 @@ class ChatState extends State<Chat> {
                   ),
   //*************************************************************************
                   //draggg files
-                  GestureDetector(
-                    onTap: () async {
-                      // Handle the file sending logic here
-                      if (listofFiles.isEmpty) {
-                        // Select file
-                        FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-                        if (result != null && result.files.isNotEmpty) {
-                          setState(() {
-                            listofFiles.addAll(result.files.map((file) => XFile(file.name)));
-                            listofFiles.addAll(result.files.map((file) => XFile(file.name)));
-                          });
-                        }
-                      } else {
-                        // Send the files
-                        // Implement your file sending logic here
-                        // You can access the list of XFile objects using the listofFiles variable
-                      }
-                    },
-                    child: DropTarget(
-                      onDragDone: (detail) {
-                        setState(() {
-                          listofFiles.addAll(detail.files);
-                        });
-                      },
-                      onDragEntered: (detail) {
-                        setState(() {
-                          dragging = true;
-                        });
-                      },
-                      onDragExited: (detail) {
-                        setState(() {
-                          dragging = false;
-                        });
-                      },
-                      child: Container(
-                        child: listofFiles.isEmpty
-                            ? Center(child: Icon(Icons.attach_file, size: 25, color: Colors.blue.shade900))
-                            : Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // Icon(Icons.attach_file, size: 25),
-                            // SizedBox(height: 10),
-                            Text(listofFiles.map((file) => file.name).join("\n")),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: () async {
+                  //     // Handle the file sending logic here
+                  //     if (listofFiles.isEmpty) {
+                  //       // Select file
+                  //       FilePickerResult? result = await FilePicker.platform.pickFiles();
+                  //
+                  //       if (result != null && result.files.isNotEmpty) {
+                  //         setState(() {
+                  //           listofFiles.addAll(result.files.map((file) => XFile(file.name)));
+                  //           listofFiles.addAll(result.files.map((file) => XFile(file.name)));
+                  //         });
+                  //       }
+                  //     } else {
+                  //       // Send the files
+                  //       // Implement your file sending logic here
+                  //       // You can access the list of XFile objects using the listofFiles variable
+                  //     }
+                  //   },
+                  //   child: DropTarget(
+                  //     onDragDone: (detail) {
+                  //       setState(() {
+                  //         listofFiles.addAll(detail.files);
+                  //       });
+                  //     },
+                  //     onDragEntered: (detail) {
+                  //       setState(() {
+                  //         dragging = true;
+                  //       });
+                  //     },
+                  //     onDragExited: (detail) {
+                  //       setState(() {
+                  //         dragging = false;
+                  //       });
+                  //     },
+                  //     child: Container(
+                  //       child: listofFiles.isEmpty
+                  //           ? Center(child: Icon(Icons.attach_file, size: 25, color: Colors.blue.shade900))
+                  //           : Column(
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           // Icon(Icons.attach_file, size: 25),
+                  //           // SizedBox(height: 10),
+                  //           Text(listofFiles.map((file) => file.name).join("\n")),
+                  //         ],
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
     //*************************************************************************
 
-                  LayoutBuilder(
-                    builder: (context, constraints) {
-                      return IconButton(
-                        onPressed: openGallery,
-                        icon: Icon(
-                          color: Colors.blue.shade900,
-                          Icons.photo,
-                          size: 25,
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 46.0),
-                  if (galleryImage != null)
-                    Image.memory(
-                      galleryImage!,
-                      height: 250,
-                      width: 250,
-                    ),
+                  // LayoutBuilder(
+                  //   builder: (context, constraints) {
+                  //     return IconButton(
+                  //       onPressed: openGallery,
+                  //       icon: Icon(
+                  //         color: Colors.blue.shade900,
+                  //         Icons.photo,
+                  //         size: 25,
+                  //       ),
+                  //     );
+                  //   },
+                  // ),
+                  // SizedBox(height: 46.0),
+                  // if (galleryImage != null)
+                  //   Image.memory(
+                  //     galleryImage!,
+                  //     height: 250,
+                  //     width: 250,
+                  //   ),
                 ],
               ),
             ),
@@ -267,4 +253,6 @@ class ChatState extends State<Chat> {
       ),
     );
   }
+
+
 }

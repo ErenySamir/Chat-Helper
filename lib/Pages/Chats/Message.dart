@@ -15,7 +15,7 @@ class MessageWidget extends StatelessWidget{
   MessageWidget({this.sender,this.msg,this.previousName,this.User_Name,this.User_Tybe});
   @override
   Widget build(BuildContext context) {
-    final isSender = sender == previousName;
+    // final isSender = sender == previousName;
 
     return Column(
 
@@ -36,7 +36,7 @@ class MessageWidget extends StatelessWidget{
               fontSize: 12,
             ),)
         ):Container(
-          alignment: isSender ? Alignment.centerRight : Alignment.centerLeft,
+          alignment: sender == previousName ? Alignment.centerRight : Alignment.centerLeft,
           margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
         )
 

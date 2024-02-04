@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
+import '../../Home/HomePage.dart';
+
 class Helper extends StatefulWidget {
   @override
   State<Helper> createState() {
@@ -14,7 +16,7 @@ class Helper extends StatefulWidget {
 class HelperState extends State<Helper> {
   bool state = false;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
-  String helperName = "";
+  String helperName = '';
 
   @override
   void initState() {
@@ -46,26 +48,59 @@ class HelperState extends State<Helper> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-
       appBar: AppBar(
-        title: Text('Help others ❤️'
-        , style: TextStyle(
-              color: Colors.blue.shade900, fontWeight: FontWeight.bold ,
-              fontFamily: "Font_Stranger" , fontSize: 30),),
+        title: Text(
+          'Help others ❤️',
+          style: TextStyle(
+              color: Colors.blue.shade900,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Font_Stranger",
+              fontSize: 30),
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(),
+                  backgroundColor: Colors.white,
+                ),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                },
+                child: Text(
+                  "Home ",
+                  style: TextStyle(color: Colors.blue[900]),
+                ),
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Image.asset('assets/images/help.jpg' ,),
+              child: Image.asset(
+                'assets/images/help.jpg',
+              ),
+            ),
+            Text(
+              'Dear: $helperName ',
+              style: TextStyle(
+                  color: Colors.blue.shade900,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Font_Stranger",
+                  fontSize: 20),
             ),
             Text(
               "Select your State ",
               style: TextStyle(
-                  color: Colors.blue.shade900, fontWeight: FontWeight.bold ,
-                  fontFamily: "Font_Stranger" , fontSize: 30),),
+                  color: Colors.blue.shade900,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Font_Stranger",
+                  fontSize: 30),
+            ),
             SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.all(10.0),
@@ -85,7 +120,8 @@ class HelperState extends State<Helper> {
                 onToggle: (index) async {
                   setState(() {
                     state = index == 0;
-                    print('Switched to: ${state ? "Available" : "Not Available"}');
+                    print(
+                        'Switched to: ${state ? "Available" : "Not Available"}');
                   });
                   // Save the state and helper name to Firestore
                   try {
@@ -95,7 +131,8 @@ class HelperState extends State<Helper> {
                     });
                     print('State and helper name saved to Firestore!');
                   } catch (e) {
-                    print('Error saving state and helper name to Firestore: $e');
+                    print(
+                        'Error saving state and helper name to Firestore: $e');
                   }
                 },
               ),

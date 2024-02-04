@@ -52,18 +52,18 @@ class ProfileState extends State<Profile> {
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                isDarkMode = !isDarkMode;
-              });
-            },
-            // Use isDarkMode to change the icon
-            icon: Icon(
-              isDarkMode ? CupertinoIcons.sun_max : CupertinoIcons.moon_stars,
-              color: isDarkMode ? Colors.white : Colors.black,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {
+          //     setState(() {
+          //       isDarkMode = !isDarkMode;
+          //     });
+          //   },
+          //   // Use isDarkMode to change the icon
+          //   icon: Icon(
+          //     isDarkMode ? CupertinoIcons.sun_max : CupertinoIcons.moon_stars,
+          //     color: isDarkMode ? Colors.white : Colors.black,
+          //   ),
+          // ),
         ],
       ),
       body: ListView(
@@ -89,13 +89,7 @@ class ProfileState extends State<Profile> {
                             },
                           ),
                           SizedBox(height: 10),
-                          // GestureDetector(
-                          //   child: Text('Camera'),
-                          //   onTap: () {
-                          //     getImage(ImageSource.camera);
-                          //     Navigator.of(context).pop();
-                          //   },
-                          // ),
+
                         ],
                       ),
                     ),
@@ -110,15 +104,15 @@ class ProfileState extends State<Profile> {
           Column(
             children: [
               Text(
-                "$nameshared ",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                '$nameshared ',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24,color: Colors.blue.shade900),
               ),
               const SizedBox(
                 height: 4,
               ),
               Text(
                 '$emailshared ',
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.blue.shade900),
               ),
             ],
           ),

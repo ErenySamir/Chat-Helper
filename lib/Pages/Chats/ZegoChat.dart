@@ -91,15 +91,15 @@ class ZegoChatState extends State<ZegoChat> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: IconButton(
-                            color: Colors.blue.shade900, onPressed: () {
-                            chatController.navigateToCallPage();
-                          }, icon: Icon(Icons.call),
-                          ),
-                        ),
-                        Text("Voice Call"),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: IconButton(
+                        //     color: Colors.blue.shade900, onPressed: () {
+                        //     chatController.navigateToCallPage();
+                        //   }, icon: Icon(Icons.call),
+                        //   ),
+                        // ),
+                        // Text("Voice Call"),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: IconButton(

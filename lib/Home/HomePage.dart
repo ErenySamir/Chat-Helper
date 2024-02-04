@@ -18,7 +18,7 @@ class HomePageState extends State<HomePage>{
   List<Widget> get pages => [
     Profile(),
     CallPage(callID: ""),
-    ZegoChat(),
+    Chat(),
   //  Setting(),
   ];
   bool get showAppBar => currentIndexx == 0; //  Show app bar only for the home page (index 0)
